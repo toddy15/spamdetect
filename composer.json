@@ -1,0 +1,32 @@
+{
+    "name": "toddy15/naive-bayes",
+    "description": "Naive Bayes implementation for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/toddy15/naive-bayes",
+    "authors": [
+        {
+            "name": "Dr. Tobias Quathamer",
+            "email": "toddy@debian.org"
+        }
+    ],
+    "keywords": [
+        "toddy15",
+        "laravel",
+        "bayes",
+        "naive bayes"
+    ],
+    "require": {
+        "php": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Toddy15\\NaiveBayes\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Toddy15\\NaiveBayes\\Tests\\": "tests"
+        }
+    }
+}
