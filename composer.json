@@ -28,5 +28,15 @@
         "psr-4": {
             "Toddy15\\NaiveBayes\\Tests\\": "tests"
         }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.23"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Toddy15\\NaiveBayes\\NaiveBayesServiceProvider"
+            ]
+        }
     }
 }
