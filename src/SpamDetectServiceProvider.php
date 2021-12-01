@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Toddy15\NaiveBayes;
+namespace Toddy15\SpamDetect;
 
 use Illuminate\Support\ServiceProvider;
 
-class NaiveBayesServiceProvider extends ServiceProvider
+class SpamDetectServiceProvider extends ServiceProvider
 {
     public function register()
     {

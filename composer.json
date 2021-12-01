@@ -1,9 +1,9 @@
 {
-    "name": "toddy15/naive-bayes",
-    "description": "Naive Bayes implementation for Laravel",
+    "name": "toddy15/spamdetect",
+    "description": "Spam detection for Laravel, using a Naive Bayes implementation",
     "type": "library",
     "license": "MIT",
-    "homepage": "https://github.com/toddy15/naive-bayes",
+    "homepage": "https://github.com/toddy15/spamdetect",
     "authors": [
         {
             "name": "Dr. Tobias Quathamer",
@@ -13,6 +13,8 @@
     "keywords": [
         "toddy15",
         "laravel",
+        "spam",
+        "spam detection",
         "bayes",
         "naive bayes"
     ],
@@ -21,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Toddy15\\NaiveBayes\\": "src"
+            "Toddy15\\SpamDetect\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Toddy15\\NaiveBayes\\Tests\\": "tests"
+            "Toddy15\\SpamDetect\\Tests\\": "tests"
         }
     },
     "require-dev": {
@@ -40,7 +42,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Toddy15\\NaiveBayes\\NaiveBayesServiceProvider"
+                "Toddy15\\SpamDetect\\SpamDetectServiceProvider"
             ]
         }
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Toddy15\NaiveBayes\Tokenizer;
+use Toddy15\SpamDetect\Tokenizer;
 
 it('splits various input strings into tokens', function (string $input, array $tokens) {
     $tokenizer = new Tokenizer([$input]);
