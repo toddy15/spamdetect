@@ -1,5 +1,7 @@
 # Naive Bayes implementation for Laravel
 
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/toddy15/naive-bayes/run-tests?label=tests)](https://github.com/toddy15/naive-bayes/actions?query=workflow%3Arun-tests+branch%3Amain)
+
 This package provides a naive bayes classifier for Laravel.
 
 ## Installation
