@@ -19,7 +19,8 @@
         "naive bayes"
     ],
     "require": {
-        "php": "^7.4||^8.0"
+        "php": "^7.4||^8.0",
+        "illuminate/support": "^8.74"
     },
     "autoload": {
         "psr-4": {
