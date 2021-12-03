@@ -9,6 +9,10 @@ dataset('tokens', [
         ['This', 'is', 'a', 'sentence']
     ],
     [
+        'Some UTF-8 characters dünn été außen 💚️',
+        ['Some', 'UTF-8', 'characters', 'dünn', 'été', 'außen', '💚️']
+    ],
+    [
         'Multiple     spaces',
         ['Multiple', 'spaces']
     ],
