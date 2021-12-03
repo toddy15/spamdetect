@@ -23,7 +23,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Toddy15\\SpamDetect\\": "src"
+            "Toddy15\\SpamDetect\\": "src",
+            "Toddy15\\SpamDetect\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
