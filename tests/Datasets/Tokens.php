@@ -52,4 +52,12 @@ dataset('tokens', [
         'These are::double colons',
         ['These', 'are::double', 'colons']
     ],
+    [
+        'Some other [emoji] markup',
+        ['Some', 'other', '[emoji]', 'markup']
+    ],
+    [
+        '[Multiple][emojis][here]',
+        ['[Multiple]', '[emojis]', '[here]']
+    ],
 ]);

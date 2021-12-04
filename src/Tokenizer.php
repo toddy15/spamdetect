@@ -7,13 +7,19 @@ namespace Toddy15\SpamDetect;
 class Tokenizer
 {
     /**
-     * Define start and ending tag of some common markups:
+     * Define start and ending tags of some common markups:
      * - HTML or XML tags like <h1>
      * - Emoji notation like :smile:
+     * - Emoji notation like [wink]
+     *
+     * Each array consists of the start and end delimiter
+     * for the markup.
      */
     private array $commonMarkups = [
         ['<', '>'],
         [':', ':'],
+        // Needs to be escaped for the regular expression.
+        ['\[', '\]'],
     ];
 
     /**
