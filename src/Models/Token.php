@@ -33,4 +33,12 @@ class Token extends Model
         'count_ham' => 0,
         'count_spam' => 0,
     ];
+
+    /**
+     * The attributes that should be cast.
+     */
+    protected $casts = [
+        'count_ham' => 'integer',
+        'count_spam' => 'integer',
+    ];
 }
