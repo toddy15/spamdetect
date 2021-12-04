@@ -42,14 +42,16 @@ class Tokenizer
             $end = $delimiters[1];
             $this->tokenizeCommonMarkups($start, $end);
         }
+
+        // Perform the splitting on whitespace
         $result = [];
         foreach ($this->tokens as $token) {
             $result = array_merge($result, array_filter(preg_split("/\s+/", $token)));
         }
 
-        $this->tokens = $result;
-
-        return $this->tokens;
+        // Finally, remove identical tokens. Each token
+        // should appear only once in the result.
+        return array_values(array_unique($result));
     }
 
     /**

@@ -13,6 +13,10 @@ dataset('tokens', [
         ['Some', 'UTF-8', 'characters', 'dünn', 'été', 'außen', '💚️']
     ],
     [
+        'Repeated words words words words are counted only once.',
+        ['Repeated', 'words', 'are', 'counted', 'only', 'once.'],
+    ],
+    [
         'Multiple     spaces',
         ['Multiple', 'spaces']
     ],
