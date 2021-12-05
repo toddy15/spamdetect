@@ -22,7 +22,7 @@ class SpamDetect
     }
 
     /**
-     * Split the given string into tokens and add them to the database.
+     * Split the given string into tokens and add them to the ham database.
      */
     public function trainHam(string $string): void
     {
@@ -35,6 +35,23 @@ class SpamDetect
         }
         $stats = Token::find(1);
         $stats->count_ham++;
+        $stats->save();
+    }
+
+    /**
+     * Split the given string into tokens and add them to the spam database.
+     */
+    public function trainSpam(string $string)
+    {
+        $tokenizer = new Tokenizer([$string]);
+        foreach ($tokenizer->tokenize() as $token) {
+            Token::create([
+                'token' => $token,
+                'count_spam' => 1,
+            ]);
+        }
+        $stats = Token::find(1);
+        $stats->count_spam++;
         $stats->save();
     }
 }

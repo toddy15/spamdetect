@@ -49,3 +49,37 @@ it('can train with a text known to be ham', function () {
         ]);
     }
 });
+
+it('can train with a text known to be spam', function () {
+    $spamdetect = new SpamDetect();
+
+    // Ensure the database has no training texts yet
+    $stats = Token::find(1);
+    expect($stats->count_ham)->toBe(0);
+    expect($stats->count_spam)->toBe(0);
+
+    // Ensure the database contains no tokens
+    expect(
+        Token::where('id', '>', 1)->count()
+    )->toBe(0);
+
+    $spamdetect->trainSpam('This text is spam');
+
+    // Ensure the database now has one training text
+    $stats->refresh();
+    expect($stats->count_ham)->toBe(0);
+    expect($stats->count_spam)->toBe(1);
+
+    // Check if the database contains four tokens
+    expect(
+        Token::where('id', '>', 1)->count()
+    )->toBe(4);
+
+    // Check that all tokens have been added correctly
+    foreach (['This', 'text', 'is', 'spam'] as $token) {
+        $this->assertDatabaseHas('spamdetect_tokens', [
+            'token' => $token,
+            'count_spam' => 1,
+        ]);
+    }
+});
