@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Toddy15\SpamDetect;
 
+use Toddy15\SpamDetect\Models\Token;
+
 class SpamDetect
 {
     /**
@@ -17,5 +19,22 @@ class SpamDetect
     public function classify(string $string): float
     {
         return 0.5;
+    }
+
+    /**
+     * Split the given string into tokens and add them to the database.
+     */
+    public function trainHam(string $string): void
+    {
+        $tokenizer = new Tokenizer([$string]);
+        foreach ($tokenizer->tokenize() as $token) {
+            Token::create([
+                'token' => $token,
+                'count_ham' => 1,
+            ]);
+        }
+        $stats = Token::find(1);
+        $stats->count_ham++;
+        $stats->save();
     }
 }
