@@ -83,3 +83,73 @@ it('can train with a text known to be spam', function () {
         ]);
     }
 });
+
+it('adds tokens that already exists in the database', function () {
+    $spamdetect = new SpamDetect();
+
+    $spamdetect->trainHam('This text is ham');
+    $spamdetect->trainHam('This text is ham');
+
+    // Ensure the database now has two training texts
+    $stats = Token::find(1);
+    expect($stats->count_ham)->toBe(2);
+    expect($stats->count_spam)->toBe(0);
+
+    // Check if the database contains four tokens
+    expect(
+        Token::where('id', '>', 1)->count()
+    )->toBe(4);
+
+    // Check that all tokens have been added correctly
+    foreach (['This', 'text', 'is', 'ham'] as $token) {
+        $this->assertDatabaseHas('spamdetect_tokens', [
+            'token' => $token,
+            'count_ham' => 2,
+        ]);
+    }
+});
+
+it('can train with texts known to be ham or spam', function () {
+    $spamdetect = new SpamDetect();
+
+    $spamdetect->trainHam('This text is ham');
+    $spamdetect->trainHam('And this as well');
+    $spamdetect->trainSpam('This text is spam');
+    $spamdetect->trainSpam('Cheap pills');
+    $spamdetect->trainSpam('Cheap pills for you');
+
+    // Ensure the database now has all training texts
+    $stats = Token::find(1);
+    expect($stats->count_ham)->toBe(2);
+    expect($stats->count_spam)->toBe(3);
+
+    // Check if the database contains the correct amount of tokens
+    expect(
+        Token::where('id', '>', 1)->count()
+    )->toBe(13);
+
+    // Check that all tokens have been added correctly
+    // Contents of inner array: token, count_ham, count_spam
+    $expected_tokens = [
+        ['This', 1, 1],
+        ['text', 1, 1],
+        ['is', 1, 1],
+        ['ham', 1, 0],
+        ['And', 1, 0],
+        ['this', 1, 0],
+        ['as', 1, 0],
+        ['well', 1, 0],
+        ['spam', 0, 1],
+        ['Cheap', 0, 2],
+        ['pills', 0, 2],
+        ['for', 0, 1],
+        ['you', 0, 1],
+    ];
+    foreach ($expected_tokens as $token) {
+        $this->assertDatabaseHas('spamdetect_tokens', [
+            'token' => $token[0],
+            'count_ham' => $token[1],
+            'count_spam' => $token[2],
+        ]);
+    }
+});

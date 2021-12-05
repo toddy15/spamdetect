@@ -28,10 +28,11 @@ class SpamDetect
     {
         $tokenizer = new Tokenizer([$string]);
         foreach ($tokenizer->tokenize() as $token) {
-            Token::create([
+            $existing_token = Token::firstOrNew([
                 'token' => $token,
-                'count_ham' => 1,
             ]);
+            $existing_token->count_ham++;
+            $existing_token->save();
         }
         $stats = Token::find(1);
         $stats->count_ham++;
@@ -45,10 +46,11 @@ class SpamDetect
     {
         $tokenizer = new Tokenizer([$string]);
         foreach ($tokenizer->tokenize() as $token) {
-            Token::create([
+            $existing_token = Token::firstOrNew([
                 'token' => $token,
-                'count_spam' => 1,
             ]);
+            $existing_token->count_spam++;
+            $existing_token->save();
         }
         $stats = Token::find(1);
         $stats->count_spam++;
