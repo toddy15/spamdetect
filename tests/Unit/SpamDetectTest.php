@@ -78,6 +78,26 @@ it('calculates the probability of found tokens with ham and spam data', function
     ]);
 });
 
+it('ranks few found tokens according to their importance', function () {
+    $this->spamdetect->trainHam('word-01 word-02');
+    $this->spamdetect->trainSpam('word-03 word-04');
+    $this->stats->refresh();
+    $probabilities = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
+        $this->stats,
+        ['word-01', 'other', 'word-04'],
+    ]);
+
+    $importantTokens = $this->getImportantTokens->invokeArgs($this->spamdetect, [
+        $probabilities,
+    ]);
+
+    expect($importantTokens)->toBe([
+        "word-01",
+        "word-04",
+        'other'
+    ]);
+});
+
 it('ranks found tokens according to their importance', function () {
     // Create an array of 20 different words, then
     // join them together for ham texts like this:
