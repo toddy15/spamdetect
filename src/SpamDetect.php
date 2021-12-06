@@ -43,7 +43,13 @@ class SpamDetect
         $probabilities = $this->getTokenProbabilities($found_tokens);
         $importantTokens = $this->getImportantTokens($probabilities);
 
-        return 0.5;
+        // In order to avoid floating point underflow,
+        // do the calculation in the logarithmic domain.
+        $result = 0;
+        foreach ($importantTokens as $token => $probability) {
+            $result += log(1 - $probability) - log($probability);
+        }
+        return round(1 / (1 + exp($result)), 2);
     }
 
     /**

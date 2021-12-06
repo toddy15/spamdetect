@@ -153,3 +153,33 @@ it('can train with texts known to be ham or spam', function () {
         ]);
     }
 });
+
+it('classifies a new ham text based on training data', function () {
+    $spamdetect = new SpamDetect();
+
+    $spamdetect->trainHam('This text is ham');
+
+    $result = $spamdetect->classify('This');
+    expect($result)->toBe(0.01);
+
+    $result = $spamdetect->classify('This is an unknown text');
+    expect($result)->toBe(0.0);
+
+    $result = $spamdetect->classify('No data for evaluation');
+    expect($result)->toBe(0.5);
+});
+
+it('classifies a new spam text based on training data', function () {
+    $spamdetect = new SpamDetect();
+
+    $spamdetect->trainSpam('This text is spam');
+
+    $result = $spamdetect->classify('This');
+    expect($result)->toBe(0.99);
+
+    $result = $spamdetect->classify('This is an unknown text');
+    expect($result)->toBe(1.0);
+
+    $result = $spamdetect->classify('No data for evaluation');
+    expect($result)->toBe(0.5);
+});
