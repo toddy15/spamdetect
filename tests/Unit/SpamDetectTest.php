@@ -5,23 +5,25 @@ declare(strict_types=1);
 use Toddy15\SpamDetect\Models\Token;
 use Toddy15\SpamDetect\SpamDetect;
 
-it('calculates the probability of found tokens without training data', function () {
+beforeEach(function () {
     // The helper method is private, so make use of the
     // ReflectionClass
     $reflector = new ReflectionClass(SpamDetect::class);
     try {
-        $method = $reflector->getMethod('getTokenProbabilities');
+        $this->method = $reflector->getMethod('getTokenProbabilities');
     } catch (Exception $e) {
-        // This should not be reached, so make sure the test fail.
+        // This should not be reached, so make sure the test fails.
         expect(true)->toBeFalse();
     }
-    $method->setAccessible( true );
+    $this->method->setAccessible( true );
 
-    $spamdetect = new SpamDetect();
-    $stats = Token::find(1);
+    $this->spamdetect = new SpamDetect();
+    $this->stats = Token::find(1);
+});
 
-    $result = $method->invokeArgs($spamdetect, [
-        $stats, ['This', 'unknown', 'cheap']
+it('calculates the probability of found tokens without training data', function () {
+    $result = $this->method->invokeArgs($this->spamdetect, [
+        $this->stats, ['This', 'unknown', 'cheap']
     ]);
     expect($result)->toBe([
         'This' => 0.5,
@@ -31,23 +33,10 @@ it('calculates the probability of found tokens without training data', function 
 });
 
 it('calculates the probability of found tokens with only ham data', function () {
-    // The helper method is private, so make use of the
-    // ReflectionClass
-    $reflector = new ReflectionClass(SpamDetect::class);
-    try {
-        $method = $reflector->getMethod('getTokenProbabilities');
-    } catch (Exception $e) {
-        // This should not be reached, so make sure the test fail.
-        expect(true)->toBeFalse();
-    }
-    $method->setAccessible(true);
+    $this->spamdetect->trainHam('This text is ham');
 
-    $spamdetect = new SpamDetect();
-    $stats = Token::find(1);
-    $spamdetect->trainHam('This text is ham');
-
-    $result = $method->invokeArgs($spamdetect, [
-        $stats,
+    $result = $this->method->invokeArgs($this->spamdetect, [
+        $this->stats,
         ['This', 'unknown', 'cheap']
     ]);
     expect($result)->toBe([
@@ -58,23 +47,10 @@ it('calculates the probability of found tokens with only ham data', function () 
 });
 
 it('calculates the probability of found tokens with only spam data', function () {
-    // The helper method is private, so make use of the
-    // ReflectionClass
-    $reflector = new ReflectionClass(SpamDetect::class);
-    try {
-        $method = $reflector->getMethod('getTokenProbabilities');
-    } catch (Exception $e) {
-        // This should not be reached, so make sure the test fail.
-        expect(true)->toBeFalse();
-    }
-    $method->setAccessible(true);
+    $this->spamdetect->trainSpam('Buy cheap pills');
 
-    $spamdetect = new SpamDetect();
-    $stats = Token::find(1);
-    $spamdetect->trainSpam('Buy cheap pills');
-
-    $result = $method->invokeArgs($spamdetect, [
-        $stats,
+    $result = $this->method->invokeArgs($this->spamdetect, [
+        $this->stats,
         ['This', 'unknown', 'cheap']
     ]);
     expect($result)->toBe([
@@ -85,24 +61,11 @@ it('calculates the probability of found tokens with only spam data', function ()
 });
 
 it('calculates the probability of found tokens with ham and spam data', function () {
-    // The helper method is private, so make use of the
-    // ReflectionClass
-    $reflector = new ReflectionClass(SpamDetect::class);
-    try {
-        $method = $reflector->getMethod('getTokenProbabilities');
-    } catch (Exception $e) {
-        // This should not be reached, so make sure the test fail.
-        expect(true)->toBeFalse();
-    }
-    $method->setAccessible(true);
+    $this->spamdetect->trainHam('This text is ham');
+    $this->spamdetect->trainSpam('Buy cheap pills');
 
-    $spamdetect = new SpamDetect();
-    $stats = Token::find(1);
-    $spamdetect->trainHam('This text is ham');
-    $spamdetect->trainSpam('Buy cheap pills');
-
-    $result = $method->invokeArgs($spamdetect, [
-        $stats,
+    $result = $this->method->invokeArgs($this->spamdetect, [
+        $this->stats,
         ['This', 'unknown', 'cheap']
     ]);
     expect($result)->toBe([
