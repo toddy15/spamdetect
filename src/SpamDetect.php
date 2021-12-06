@@ -40,8 +40,8 @@ class SpamDetect
         // If there are only ham *or* spam texts in the database,
         // ensure that there is no count of zero. Otherwise
         // the calculation below will divide by zero.
-        $stats->count_ham = max($stats->count_ham, 1);
-        $stats->count_spam = max($stats->count_spam, 1);
+        $count_ham_texts = max($stats->count_ham, 1);
+        $total_spam_texts = max($stats->count_spam, 1);
 
         $probabilities = [];
         foreach ($found_tokens as $found_token) {
@@ -50,8 +50,8 @@ class SpamDetect
                 $probabilities[$found_token] = 0.5;
                 continue;
             }
-            $relative_frequency_bad = min($token->count_spam / $stats->count_spam, 1);
-            $relative_frequency_good = min(2 * $token->count_ham / $stats->count_ham, 1);
+            $relative_frequency_bad = min($token->count_spam / $total_spam_texts, 1);
+            $relative_frequency_good = min(2 * $token->count_ham / $count_ham_texts, 1);
             $probability = $relative_frequency_bad / ($relative_frequency_good + $relative_frequency_bad);
             // Ensure a probability between 0.01 and 0.99
             $probabilities[$found_token] = max(min($probability, 0.99), 0.01);

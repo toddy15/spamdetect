@@ -10,20 +10,21 @@ beforeEach(function () {
     // ReflectionClass
     $reflector = new ReflectionClass(SpamDetect::class);
     try {
-        $this->method = $reflector->getMethod('getTokenProbabilities');
+        $this->getTokenProbabilities = $reflector->getMethod('getTokenProbabilities');
     } catch (Exception $e) {
         // This should not be reached, so make sure the test fails.
         expect(true)->toBeFalse();
     }
-    $this->method->setAccessible( true );
+    $this->getTokenProbabilities->setAccessible(true);
 
     $this->spamdetect = new SpamDetect();
     $this->stats = Token::find(1);
 });
 
 it('calculates the probability of found tokens without training data', function () {
-    $result = $this->method->invokeArgs($this->spamdetect, [
-        $this->stats, ['This', 'unknown', 'cheap']
+    $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
+        $this->stats,
+        ['This', 'unknown', 'cheap']
     ]);
     expect($result)->toBe([
         'This' => 0.5,
@@ -35,7 +36,7 @@ it('calculates the probability of found tokens without training data', function 
 it('calculates the probability of found tokens with only ham data', function () {
     $this->spamdetect->trainHam('This text is ham');
 
-    $result = $this->method->invokeArgs($this->spamdetect, [
+    $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
         $this->stats,
         ['This', 'unknown', 'cheap']
     ]);
@@ -49,7 +50,7 @@ it('calculates the probability of found tokens with only ham data', function () 
 it('calculates the probability of found tokens with only spam data', function () {
     $this->spamdetect->trainSpam('Buy cheap pills');
 
-    $result = $this->method->invokeArgs($this->spamdetect, [
+    $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
         $this->stats,
         ['This', 'unknown', 'cheap']
     ]);
@@ -64,7 +65,7 @@ it('calculates the probability of found tokens with ham and spam data', function
     $this->spamdetect->trainHam('This text is ham');
     $this->spamdetect->trainSpam('Buy cheap pills');
 
-    $result = $this->method->invokeArgs($this->spamdetect, [
+    $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
         $this->stats,
         ['This', 'unknown', 'cheap']
     ]);
