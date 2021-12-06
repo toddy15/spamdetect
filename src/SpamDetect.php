@@ -66,7 +66,7 @@ class SpamDetect
             }
             $relative_frequency_bad = min($token->count_spam / $total_spam_texts, 1);
             $relative_frequency_good = min(2 * $token->count_ham / $count_ham_texts, 1);
-            $probability = $relative_frequency_bad / ($relative_frequency_good + $relative_frequency_bad);
+            $probability = round($relative_frequency_bad / ($relative_frequency_good + $relative_frequency_bad), 14);
             // Ensure a probability between 0.01 and 0.99
             $probabilities[$found_token] = max(min($probability, 0.99), 0.01);
         }

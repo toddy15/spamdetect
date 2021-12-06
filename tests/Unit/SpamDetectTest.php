@@ -105,7 +105,9 @@ it('ranks found tokens according to their importance', function () {
     for ($i = 1; $i <= 20; $i++) {
         $words[] = sprintf('word-%02d', $i);
     }
-    for ($i = 1; $i <= 20; $i++) {
+    // Do not use word-01 in spam and word-20 in ham.
+    // Therefore, the upper bound is set to 19 instead of 20.
+    for ($i = 1; $i <= 19; $i++) {
         $ham = join(' ', array_slice($words, 0, $i));
         $spam = join(' ', array_slice(array_reverse($words), 0, $i));
         $this->spamdetect->trainHam($ham);
@@ -121,20 +123,20 @@ it('ranks found tokens according to their importance', function () {
     ]);
 
     expect($importantTokens)->toBe([
-        'word-01' => 0.047619047619047616,
-        'word-02' => 0.09090909090909091,
-        'word-20' => 0.9090909090909091,
-        'word-03' => 0.13043478260869565,
-        'word-04' => 0.16666666666666669,
-        'word-19' => 0.8260869565217391,
-        'word-05' => 0.2,
-        'word-06' => 0.23076923076923075,
-        'word-18' => 0.75,
-        'word-07' => 0.25925925925925924,
-        'word-08' => 0.28571428571428575,
-        'word-09' => 0.3103448275862069,
-        'word-17' => 0.6799999999999999,
-        'word-10' => 0.3333333333333333,
-        'word-11' => 0.3548387096774194,
+        'word-01' => 0.01,
+        'word-20' => 0.99,
+        'word-02' => 0.05,
+        'word-03' => 0.0952380952381,
+        'word-19' => 0.9,
+        'word-04' => 0.13636363636364,
+        'word-05' => 0.17391304347826,
+        'word-18' => 0.80952380952381,
+        'word-06' => 0.20833333333333,
+        'word-07' => 0.24,
+        'word-08' => 0.26923076923077,
+        'word-17' => 0.72727272727273,
+        'word-09' => 0.2962962962963,
+        'word-10' => 0.32142857142857,
+        'word-16' => 0.65217391304348,
     ]);
 });
