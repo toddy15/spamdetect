@@ -87,9 +87,9 @@ it('ranks few found tokens according to their importance', function () {
     ]);
 
     expect($importantTokens)->toBe([
-        "word-01",
-        "word-04",
-        'other'
+        'word-01' => 0.01,
+        'word-04' => 0.99,
+        'other' => 0.5,
     ]);
 });
 
@@ -121,20 +121,20 @@ it('ranks found tokens according to their importance', function () {
     ]);
 
     expect($importantTokens)->toBe([
-        "word-01",
-        "word-02",
-        "word-20",
-        "word-03",
-        "word-04",
-        "word-19",
-        "word-05",
-        "word-06",
-        "word-18",
-        "word-07",
-        "word-08",
-        "word-09",
-        "word-17",
-        "word-10",
-        "word-11",
+        'word-01' => 0.047619047619047616,
+        'word-02' => 0.09090909090909091,
+        'word-20' => 0.9090909090909091,
+        'word-03' => 0.13043478260869565,
+        'word-04' => 0.16666666666666669,
+        'word-19' => 0.8260869565217391,
+        'word-05' => 0.2,
+        'word-06' => 0.23076923076923075,
+        'word-18' => 0.75,
+        'word-07' => 0.25925925925925924,
+        'word-08' => 0.28571428571428575,
+        'word-09' => 0.3103448275862069,
+        'word-17' => 0.6799999999999999,
+        'word-10' => 0.3333333333333333,
+        'word-11' => 0.3548387096774194,
     ]);
 });

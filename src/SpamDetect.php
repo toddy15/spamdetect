@@ -84,8 +84,13 @@ class SpamDetect
         // Sort importance from the highest value to lowest,
         // maintaining the key (= token).
         arsort($importance);
-        // Return at most 15 tokens.
-        return array_keys(array_slice($importance, 0, 15));
+        // Use at most 15 tokens.
+        $tokens = array_keys(array_slice($importance, 0, 15));
+        $importantTokens = [];
+        foreach ($tokens as $token){
+            $importantTokens[$token] = $probabilities[$token];
+        }
+        return $importantTokens;
     }
 
     /**
