@@ -28,6 +28,7 @@ class SpamDetect
         $tokenizer = new Tokenizer([$string]);
         $found_tokens = $tokenizer->tokenize();
         $probabilities = $this->getTokenProbabilities($stats, $found_tokens);
+        $importantTokens = $this->getImportantTokens($probabilities);
 
         return 0.5;
     }
@@ -57,6 +58,21 @@ class SpamDetect
             $probabilities[$found_token] = max(min($probability, 0.99), 0.01);
         }
         return $probabilities;
+    }
+
+    private function getImportantTokens(array $probabilities): array
+    {
+        $importance = [];
+        // The "importance" is used to extract the most meaningful
+        // tokens, i.e. those which are near 0 or 1.
+        foreach ($probabilities as $token => $probability) {
+            $importance[$token] = abs(0.5 - $probability);
+        }
+        // Sort importance from the highest value to lowest,
+        // maintaining the key (= token).
+        arsort($importance);
+        // Return at most 15 tokens.
+        return array_keys(array_slice($importance, 0, 15));
     }
 
     /**
