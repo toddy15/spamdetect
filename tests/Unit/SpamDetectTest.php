@@ -25,7 +25,6 @@ beforeEach(function () {
 
 it('calculates the probability of found tokens without training data', function () {
     $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
-        $this->stats,
         ['This', 'unknown', 'cheap']
     ]);
     expect($result)->toBe([
@@ -39,7 +38,6 @@ it('calculates the probability of found tokens with only ham data', function () 
     $this->spamdetect->trainHam('This text is ham');
 
     $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
-        $this->stats,
         ['This', 'unknown', 'cheap']
     ]);
     expect($result)->toBe([
@@ -53,7 +51,6 @@ it('calculates the probability of found tokens with only spam data', function ()
     $this->spamdetect->trainSpam('Buy cheap pills');
 
     $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
-        $this->stats,
         ['This', 'unknown', 'cheap']
     ]);
     expect($result)->toBe([
@@ -68,7 +65,6 @@ it('calculates the probability of found tokens with ham and spam data', function
     $this->spamdetect->trainSpam('Buy cheap pills');
 
     $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
-        $this->stats,
         ['This', 'unknown', 'cheap']
     ]);
     expect($result)->toBe([
@@ -83,7 +79,6 @@ it('ranks few found tokens according to their importance', function () {
     $this->spamdetect->trainSpam('word-03 word-04');
     $this->stats->refresh();
     $probabilities = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
-        $this->stats,
         ['word-01', 'other', 'word-04'],
     ]);
 
@@ -118,7 +113,6 @@ it('ranks found tokens according to their importance', function () {
     }
     $this->stats->refresh();
     $probabilities = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
-        $this->stats,
         $words,
     ]);
 

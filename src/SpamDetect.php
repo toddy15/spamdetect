@@ -9,6 +9,19 @@ use Toddy15\SpamDetect\Models\Token;
 class SpamDetect
 {
     /**
+     * The special token, holding stats about ham and spam texts.
+     */
+    private Token $stats;
+
+    /**
+     * Initialize the class with stats about ham and spam texts.
+     */
+    public function __construct()
+    {
+        $this->stats = Token::find(1);
+    }
+
+    /**
      * Classify a text.
      *
      * The function return a float value between 0.0 and 1.0,
@@ -18,16 +31,16 @@ class SpamDetect
      */
     public function classify(string $string): float
     {
-        $stats = Token::find(1);
+        $this->stats->refresh();
 
         // If there are no texts yet, the probability is 0.5
-        if ($stats->count_ham === 0 and $stats->count_spam === 0) {
+        if ($this->stats->count_ham === 0 and $this->stats->count_spam === 0) {
             return 0.5;
         }
 
         $tokenizer = new Tokenizer([$string]);
         $found_tokens = $tokenizer->tokenize();
-        $probabilities = $this->getTokenProbabilities($stats, $found_tokens);
+        $probabilities = $this->getTokenProbabilities($found_tokens);
         $importantTokens = $this->getImportantTokens($probabilities);
 
         return 0.5;
@@ -36,13 +49,13 @@ class SpamDetect
     /**
      * Helper function to get individual probabilities of tokens
      */
-    private function getTokenProbabilities(Token $stats, $found_tokens): array
+    private function getTokenProbabilities(array $found_tokens): array
     {
         // If there are only ham *or* spam texts in the database,
         // ensure that there is no count of zero. Otherwise
         // the calculation below will divide by zero.
-        $count_ham_texts = max($stats->count_ham, 1);
-        $total_spam_texts = max($stats->count_spam, 1);
+        $count_ham_texts = max($this->stats->count_ham, 1);
+        $total_spam_texts = max($this->stats->count_spam, 1);
 
         $probabilities = [];
         foreach ($found_tokens as $found_token) {
@@ -88,9 +101,9 @@ class SpamDetect
             $existing_token->count_ham++;
             $existing_token->save();
         }
-        $stats = Token::find(1);
-        $stats->count_ham++;
-        $stats->save();
+        $this->stats->refresh();
+        $this->stats->count_ham++;
+        $this->stats->save();
     }
 
     /**
@@ -106,8 +119,8 @@ class SpamDetect
             $existing_token->count_spam++;
             $existing_token->save();
         }
-        $stats = Token::find(1);
-        $stats->count_spam++;
-        $stats->save();
+        $this->stats->refresh();
+        $this->stats->count_spam++;
+        $this->stats->save();
     }
 }
