@@ -176,3 +176,29 @@ it('classifies a new spam text based on training data', function () {
 
     expect($spamdetect->classify('No data for evaluation'))->toBe(0.5);
 });
+
+it('classifies complex texts based on training data', function () {
+    $spamdetect = new SpamDetect();
+
+    $spamdetect->trainHam('Innocent cheap text');
+    $spamdetect->trainHam('Some more ham');
+    $spamdetect->trainSpam('Buy cheap pills online');
+    $spamdetect->trainSpam('Another spam');
+    $spamdetect->trainSpam('Third unwanted cheap input');
+
+    expect(
+        $spamdetect->classify('Due to the words online cheap pills this is a rather spammy text')
+    )->toBe(0.9851);
+
+    expect(
+        $spamdetect->classify('This is cheap information')
+    )->toBe(0.4);
+
+    expect(
+        $spamdetect->classify('This is cheap information')
+    )->toBe(0.4);
+
+    expect(
+        $spamdetect->classify('Good text which is spam ham')
+    )->toBe(0.01);
+});
