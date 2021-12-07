@@ -46,10 +46,10 @@ class SpamDetect
         // In order to avoid floating point underflow,
         // do the calculation in the logarithmic domain.
         $result = 0;
-        foreach ($importantTokens as $token => $probability) {
+        foreach ($importantTokens as $probability) {
             $result += log(1 - $probability) - log($probability);
         }
-        return round(1 / (1 + exp($result)), 2);
+        return round(1 / (1 + exp($result)), 4);
     }
 
     /**
