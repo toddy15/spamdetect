@@ -12,8 +12,7 @@ it('can instantiate a spam detector', function () {
 
 it('classifies a text with an empty database as 0.5', function () {
     $spamdetect = new SpamDetect();
-    $result = $spamdetect->classify('This text should rate with 0.5');
-    expect($result)->toBe(0.5);
+    expect($spamdetect->classify('This text should rate with 0.5'))->toBe(0.5);
 });
 
 it('can train with a text known to be ham', function () {
@@ -159,14 +158,11 @@ it('classifies a new ham text based on training data', function () {
 
     $spamdetect->trainHam('This text is ham');
 
-    $result = $spamdetect->classify('This');
-    expect($result)->toBe(0.01);
+    expect($spamdetect->classify('This'))->toBe(0.01);
 
-    $result = $spamdetect->classify('This is an unknown text');
-    expect($result)->toBe(0.0);
+    expect($spamdetect->classify('This is an unknown text'))->toBe(0.0);
 
-    $result = $spamdetect->classify('No data for evaluation');
-    expect($result)->toBe(0.5);
+    expect($spamdetect->classify('No data for evaluation'))->toBe(0.5);
 });
 
 it('classifies a new spam text based on training data', function () {
@@ -174,12 +170,9 @@ it('classifies a new spam text based on training data', function () {
 
     $spamdetect->trainSpam('This text is spam');
 
-    $result = $spamdetect->classify('This');
-    expect($result)->toBe(0.99);
+    expect($spamdetect->classify('This'))->toBe(0.99);
 
-    $result = $spamdetect->classify('This is an unknown text');
-    expect($result)->toBe(1.0);
+    expect($spamdetect->classify('This is an unknown text'))->toBe(1.0);
 
-    $result = $spamdetect->classify('No data for evaluation');
-    expect($result)->toBe(0.5);
+    expect($spamdetect->classify('No data for evaluation'))->toBe(0.5);
 });
