@@ -1,7 +1,7 @@
 # Spam detection for Laravel
 
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/toddy15/spamdetect/run-tests?label=Tests)](https://github.com/toddy15/spamdetect/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub PHPStan Action Status](https://img.shields.io/github/workflow/status/toddy15/spamdetect/PHPStan?label=PHPStan%20Level%206)](https://github.com/toddy15/spamdetect/actions?query=workflow%3Aphpstan+branch%3Amain)
+[![GitHub PHPStan Action Status](https://img.shields.io/github/workflow/status/toddy15/spamdetect/PHPStan?label=PHPStan%20Level%207)](https://github.com/toddy15/spamdetect/actions?query=workflow%3Aphpstan+branch%3Amain)
 [![License MIT](https://img.shields.io/github/license/toddy15/spamdetect?color=brightgreen&label=License)](https://github.com/toddy15/spamdetect/LICENSE.md)
 
 This package provides a naive bayes classifier for Laravel.

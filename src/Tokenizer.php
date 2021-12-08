@@ -46,7 +46,11 @@ class Tokenizer
         // Perform the splitting on whitespace
         $result = [];
         foreach ($this->tokens as $token) {
-            $result = array_merge($result, array_filter(preg_split("/\s+/", $token)));
+            $split_tokens = preg_split("/\s+/", $token);
+            if ($split_tokens === false) {
+                $split_tokens = [$token];
+            }
+            $result = array_merge($result, array_filter($split_tokens));
         }
 
         // Finally, remove identical tokens. Each token
@@ -64,6 +68,9 @@ class Tokenizer
 
         foreach ($this->tokens as $s) {
             $tokens = preg_split($pattern, $s, 0, PREG_SPLIT_DELIM_CAPTURE);
+            if ($tokens === false) {
+                $tokens = [$s];
+            }
             foreach ($tokens as $token) {
                 $token = trim($token);
                 if ($token == '') {
