@@ -87,8 +87,8 @@ class SpamDetect
             //     of will first appear in a spam.
             // - s is the strength we want to give to our background information.
             // - n is the number of texts we have trained that contain the token.
-            $x = config('spamdetect.assumed_spam_probability_of_unknown_words');
-            $s = config('spamdetect.strength_of_background_information');
+            $x = (float)config('spamdetect.assumed_spam_probability_of_unknown_words', 0.5);
+            $s = (float)config('spamdetect.strength_of_background_information', 1.0);
             $n = $token->count_ham + $token->count_spam;
             $probability = (($s * $x) + ($n * $probability)) / ($s + $n);
 
