@@ -42,7 +42,8 @@
     "scripts": {
         "test": "vendor/bin/pest",
         "test-coverage": "XDEBUG_MODE=coverage vendor/bin/pest --coverage",
-        "format": "vendor/bin/php-cs-fixer fix"
+        "format": "vendor/bin/php-cs-fixer fix",
+        "analyze": "vendor/bin/phpstan"
     },
     "extra": {
         "laravel": {
