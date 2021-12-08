@@ -24,7 +24,7 @@ class SpamDetect
     /**
      * Classify a text.
      *
-     * The function return a float value between 0.0 and 1.0,
+     * The function returns a float value between 0.0 and 1.0,
      * representing the likelihood of the text being ham or spam.
      * Lower values towards 0.0 indicate 'ham', higher values
      * towards 1.0 indicate 'spam'.
@@ -50,7 +50,9 @@ class SpamDetect
             $result += log(1 - $probability) - log($probability);
         }
 
-        return round(1 / (1 + exp($result)), 4);
+        $score = round(1 / (1 + exp($result)), 4);
+
+        return max(min($score, 1.0), 0.0);
     }
 
     /**
