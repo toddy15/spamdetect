@@ -10,14 +10,14 @@ class SpamDetectServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'spamdetect');
+        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'spamdetect');
     }
 
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->publishes([
-            __DIR__.'/../config/config.php' => config_path('spamdetect.php'),
+            __DIR__ . '/../config/config.php' => config_path('spamdetect.php'),
         ]);
     }
 }

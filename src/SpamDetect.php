@@ -49,6 +49,7 @@ class SpamDetect
         foreach ($importantTokens as $probability) {
             $result += log(1 - $probability) - log($probability);
         }
+
         return round(1 / (1 + exp($result)), 4);
     }
 
@@ -68,6 +69,7 @@ class SpamDetect
             $token = Token::firstWhere(['token' => $found_token]);
             if (is_null($token)) {
                 $probabilities[$found_token] = 0.5;
+
                 continue;
             }
             $relative_frequency_bad = min($token->count_spam / $total_spam_texts, 1);
@@ -76,6 +78,7 @@ class SpamDetect
             // Ensure a probability between 0.01 and 0.99
             $probabilities[$found_token] = max(min($probability, 0.99), 0.01);
         }
+
         return $probabilities;
     }
 
@@ -93,9 +96,10 @@ class SpamDetect
         // Use at most 15 tokens.
         $tokens = array_keys(array_slice($importance, 0, 15));
         $importantTokens = [];
-        foreach ($tokens as $token){
+        foreach ($tokens as $token) {
             $importantTokens[$token] = $probabilities[$token];
         }
+
         return $importantTokens;
     }
 

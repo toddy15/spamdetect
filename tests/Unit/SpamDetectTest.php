@@ -9,6 +9,7 @@ beforeEach(function () {
     // The helper method is private, so make use of the
     // ReflectionClass
     $reflector = new ReflectionClass(SpamDetect::class);
+
     try {
         $this->getTokenProbabilities = $reflector->getMethod('getTokenProbabilities');
         $this->getImportantTokens = $reflector->getMethod('getImportantTokens');
@@ -25,7 +26,7 @@ beforeEach(function () {
 
 it('calculates the probability of found tokens without training data', function () {
     $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
-        ['This', 'unknown', 'cheap']
+        ['This', 'unknown', 'cheap'],
     ]);
     expect($result)->toBe([
         'This' => 0.5,
@@ -38,7 +39,7 @@ it('calculates the probability of found tokens with only ham data', function () 
     $this->spamdetect->trainHam('This text is ham');
 
     $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
-        ['This', 'unknown', 'cheap']
+        ['This', 'unknown', 'cheap'],
     ]);
     expect($result)->toBe([
         'This' => 0.01,
@@ -51,7 +52,7 @@ it('calculates the probability of found tokens with only spam data', function ()
     $this->spamdetect->trainSpam('Buy cheap pills');
 
     $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
-        ['This', 'unknown', 'cheap']
+        ['This', 'unknown', 'cheap'],
     ]);
     expect($result)->toBe([
         'This' => 0.5,
@@ -65,7 +66,7 @@ it('calculates the probability of found tokens with ham and spam data', function
     $this->spamdetect->trainSpam('Buy cheap pills');
 
     $result = $this->getTokenProbabilities->invokeArgs($this->spamdetect, [
-        ['This', 'unknown', 'cheap']
+        ['This', 'unknown', 'cheap'],
     ]);
     expect($result)->toBe([
         'This' => 0.01,
