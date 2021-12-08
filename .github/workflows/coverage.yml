@@ -39,7 +39,7 @@ jobs:
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Execute and upload coverage
-        uses: paambaati/codeclimate-action@v2.2.4
+        uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: 6c966aec7875ce94c116d2e4984552a42880556dfe1c759033fcea58730ee2bd
           XDEBUG_MODE: coverage
