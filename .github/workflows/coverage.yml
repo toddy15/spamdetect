@@ -41,7 +41,7 @@ jobs:
       - name: Execute and upload coverage
         uses: paambaati/codeclimate-action@v3.0.0
         env:
-          CC_TEST_REPORTER_ID: 6c966aec7875ce94c116d2e4984552a42880556dfe1c759033fcea58730ee2bd
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
           XDEBUG_MODE: coverage
         with:
           coverageCommand: vendor/bin/pest --coverage-clover coverage.xml
