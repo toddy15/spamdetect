@@ -11,7 +11,7 @@ class SpamDetect
     /**
      * The special token, holding stats about ham and spam texts.
      */
-    private Token $stats;
+    private ?Token $stats;
 
     /**
      * Initialize the class with stats about ham and spam texts.
@@ -31,6 +31,10 @@ class SpamDetect
      */
     public function classify(string $string): float
     {
+        if (is_null($this->stats)) {
+            return 0.5;
+        }
+
         $this->stats->refresh();
 
         // If there are no texts yet, the probability is 0.5
@@ -60,11 +64,16 @@ class SpamDetect
      */
     private function getTokenProbabilities(array $found_tokens): array
     {
-        // If there are only ham *or* spam texts in the database,
-        // ensure that there is no count of zero. Otherwise
-        // the calculation below will divide by zero.
-        $count_ham_texts = max($this->stats->count_ham, 1);
-        $total_spam_texts = max($this->stats->count_spam, 1);
+        $count_ham_texts = 1;
+        $total_spam_texts = 1;
+        if (! is_null($this->stats)) {
+            // If there are only ham *or* spam texts in the database,
+            // ensure that there is no count of zero. Otherwise
+            // the calculation below will divide by zero.
+            $count_ham_texts = max($this->stats->count_ham, 1);
+            $total_spam_texts = max($this->stats->count_spam, 1);
+        }
+
 
         $probabilities = [];
         foreach ($found_tokens as $found_token) {
@@ -133,6 +142,10 @@ class SpamDetect
      */
     public function trainHam(string $string): void
     {
+        if (is_null($this->stats)) {
+            return;
+        }
+
         $tokenizer = new Tokenizer([$string]);
         foreach ($tokenizer->tokenize() as $token) {
             $existing_token = Token::firstOrNew([
@@ -151,6 +164,10 @@ class SpamDetect
      */
     public function trainSpam(string $string): void
     {
+        if (is_null($this->stats)) {
+            return;
+        }
+
         $tokenizer = new Tokenizer([$string]);
         foreach ($tokenizer->tokenize() as $token) {
             $existing_token = Token::firstOrNew([
