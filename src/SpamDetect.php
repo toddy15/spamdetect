@@ -72,11 +72,34 @@ class SpamDetect
 
                 continue;
             }
+
             $relative_frequency_bad = min($token->count_spam / $total_spam_texts, 1);
             $relative_frequency_good = min(2 * $token->count_ham / $count_ham_texts, 1);
-            $probability = round($relative_frequency_bad / ($relative_frequency_good + $relative_frequency_bad), 14);
+            $probability = $relative_frequency_bad / ($relative_frequency_good + $relative_frequency_bad);
+
+            // Calculate the better probability proposed by Gary Robinson.
+            // This handles the case of rare words much better.
+            // Reference: A Statistical Approach to the Spam Problem.
+            // https://www.linuxjournal.com/article/6467
+            //
+            // - x is our assumed probability, based on our general background
+            //     information, that a token we don't have any other experience
+            //     of will first appear in a spam.
+            // - s is the strength we want to give to our background information.
+            // - n is the number of texts we have trained that contain the token.
+            $x = config('spamdetect.assumed_spam_probability_of_unknown_words');
+            $s = config('spamdetect.strength_of_background_information');
+            $n = $token->count_ham + $token->count_spam;
+            $probability = (($s * $x) + ($n * $probability)) / ($s + $n);
+
             // Ensure a probability between 0.01 and 0.99
-            $probabilities[$found_token] = max(min($probability, 0.99), 0.01);
+            $probabilities[$found_token] = max(
+                min(
+                    round($probability, 14),
+                    0.99
+                ),
+                0.01
+            );
         }
 
         return $probabilities;
