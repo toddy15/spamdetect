@@ -158,9 +158,9 @@ it('classifies a new ham text based on training data', function () {
 
     $spamdetect->trainHam('This text is ham');
 
-    expect($spamdetect->classify('This'))->toBe(0.01);
+    expect($spamdetect->classify('This'))->toBe(0.25);
 
-    expect($spamdetect->classify('This is an unknown text'))->toBe(0.0);
+    expect($spamdetect->classify('This is an unknown text'))->toBe(0.0357);
 
     expect($spamdetect->classify('No data for evaluation'))->toBe(0.5);
 });
@@ -170,9 +170,9 @@ it('classifies a new spam text based on training data', function () {
 
     $spamdetect->trainSpam('This text is spam');
 
-    expect($spamdetect->classify('This'))->toBe(0.99);
+    expect($spamdetect->classify('This'))->toBe(0.75);
 
-    expect($spamdetect->classify('This is an unknown text'))->toBe(1.0);
+    expect($spamdetect->classify('This is an unknown text'))->toBe(0.9643);
 
     expect($spamdetect->classify('No data for evaluation'))->toBe(0.5);
 });
@@ -188,17 +188,13 @@ it('classifies complex texts based on training data', function () {
 
     expect(
         $spamdetect->classify('Due to the words online cheap pills this is a rather spammy text')
-    )->toBe(0.9851);
+    )->toBe(0.6892);
 
     expect(
         $spamdetect->classify('This is cheap information')
-    )->toBe(0.4);
-
-    expect(
-        $spamdetect->classify('This is cheap information')
-    )->toBe(0.4);
+    )->toBe(0.425);
 
     expect(
         $spamdetect->classify('Good text which is spam ham')
-    )->toBe(0.01);
+    )->toBe(0.25);
 });

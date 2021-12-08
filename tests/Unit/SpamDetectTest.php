@@ -42,7 +42,7 @@ it('calculates the probability of found tokens with only ham data', function () 
         ['This', 'unknown', 'cheap'],
     ]);
     expect($result)->toBe([
-        'This' => 0.01,
+        'This' => 0.25,
         'unknown' => 0.5,
         'cheap' => 0.5,
     ]);
@@ -57,7 +57,7 @@ it('calculates the probability of found tokens with only spam data', function ()
     expect($result)->toBe([
         'This' => 0.5,
         'unknown' => 0.5,
-        'cheap' => 0.99,
+        'cheap' => 0.75,
     ]);
 });
 
@@ -69,9 +69,9 @@ it('calculates the probability of found tokens with ham and spam data', function
         ['This', 'unknown', 'cheap'],
     ]);
     expect($result)->toBe([
-        'This' => 0.01,
+        'This' => 0.25,
         'unknown' => 0.5,
-        'cheap' => 0.99,
+        'cheap' => 0.75,
     ]);
 });
 
@@ -88,8 +88,8 @@ it('ranks few found tokens according to their importance', function () {
     ]);
 
     expect($importantTokens)->toBe([
-        'word-01' => 0.01,
-        'word-04' => 0.99,
+        'word-01' => 0.25,
+        'word-04' => 0.75,
         'other' => 0.5,
     ]);
 });
@@ -124,20 +124,20 @@ it('ranks found tokens according to their importance', function () {
     ]);
 
     expect($importantTokens)->toBe([
-        'word-01' => 0.01,
-        'word-20' => 0.99,
-        'word-02' => 0.05,
-        'word-03' => 0.0952380952381,
-        'word-19' => 0.9,
-        'word-04' => 0.13636363636364,
-        'word-05' => 0.17391304347826,
-        'word-18' => 0.80952380952381,
-        'word-06' => 0.20833333333333,
-        'word-07' => 0.24,
-        'word-08' => 0.26923076923077,
-        'word-17' => 0.72727272727273,
-        'word-09' => 0.2962962962963,
-        'word-10' => 0.32142857142857,
-        'word-16' => 0.65217391304348,
+        'word-01' => 0.025,
+        'word-20' => 0.975,
+        'word-02' => 0.0725,
+        'word-03' => 0.11547619047619,
+        'word-19' => 0.88,
+        'word-04' => 0.15454545454546,
+        'word-05' => 0.19021739130435,
+        'word-18' => 0.79404761904762,
+        'word-06' => 0.22291666666667,
+        'word-07' => 0.253,
+        'word-08' => 0.28076923076923,
+        'word-17' => 0.71590909090909,
+        'word-09' => 0.30648148148148,
+        'word-10' => 0.33035714285714,
+        'word-16' => 0.6445652173913,
     ]);
 });
