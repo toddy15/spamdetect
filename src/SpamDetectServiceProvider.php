@@ -8,12 +8,12 @@ use Illuminate\Support\ServiceProvider;
 
 class SpamDetectServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'spamdetect');
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->publishes([

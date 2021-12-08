@@ -149,7 +149,7 @@ class SpamDetect
     /**
      * Split the given string into tokens and add them to the spam database.
      */
-    public function trainSpam(string $string)
+    public function trainSpam(string $string): void
     {
         $tokenizer = new Tokenizer([$string]);
         foreach ($tokenizer->tokenize() as $token) {
