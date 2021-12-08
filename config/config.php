@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Configuration options for the SpamDetect package
  */
+
+declare(strict_types=1);
 
 return [
     /**
