@@ -15,7 +15,7 @@ return [
      * Any text that is rated equal or below the threshold
      * will be considered ham.
      */
-    'threshold_for_ham' => '0.40',
+    'threshold_for_ham' => 0.40,
 
     /**
      * Define the threshold for deciding if a text is spam.
@@ -25,7 +25,7 @@ return [
      * Any text that is rated equal or below the threshold
      * will be considered spam.
      */
-    'threshold_for_spam' => '0.60',
+    'threshold_for_spam' => 0.60,
 
     /**
      * The assumed probability, based on our general background
@@ -34,12 +34,12 @@ return [
      *
      * A reasonable starting value is 0.50.
      */
-    'assumed_spam_probability_of_unknown_words' => '0.50',
+    'assumed_spam_probability_of_unknown_words' => 0.50,
 
     /**
      * The strength we want to give to our background information.
      *
      * A reasonable starting value is 1.00.
      */
-    'strength_of_background_information' => '1.00',
+    'strength_of_background_information' => 1.00,
 ];
