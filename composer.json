@@ -40,7 +40,8 @@
     },
     "scripts": {
         "test": "vendor/bin/pest",
-        "test-coverage": "XDEBUG_MODE=coverage vendor/bin/pest --coverage"
+        "test-coverage": "XDEBUG_MODE=coverage vendor/bin/pest --coverage",
+        "format": "vendor/bin/php-cs-fixer fix"
     },
     "extra": {
         "laravel": {
