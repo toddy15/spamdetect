@@ -7,9 +7,6 @@ namespace Toddy15\SpamDetect\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @codeCoverageIgnore
- */
 class Token extends Model
 {
     use HasFactory;
