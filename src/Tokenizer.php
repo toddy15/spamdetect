@@ -71,15 +71,10 @@ class Tokenizer
             if ($tokens === false) {
                 $tokens = [$s];
             }
-            foreach ($tokens as $token) {
-                $token = trim($token);
-                if ($token == '') {
-                    continue;
-                }
-                $result[] = $token;
-            }
+            $result = array_merge($result, $tokens);
         }
 
-        $this->tokens = $result;
+        // Remove empty tokens
+        $this->tokens = array_filter($result);
     }
 }
