@@ -15,6 +15,37 @@ it('classifies a text with an empty database as 0.5', function () {
     expect($spamdetect->classify('This text should rate with 0.5'))->toBe(0.5);
 });
 
+it('fails gracefully if no database connection is available', function () {
+    // Remove statistic token from database
+    $stats = Token::find(1);
+    $stats->delete();
+
+    $spamdetect = new SpamDetect();
+    expect($spamdetect->classify('Example'))->toBe(0.5);
+
+    $spamdetect->trainHam('Example');
+    expect($spamdetect->classify('Example'))->toBe(0.5);
+
+    $spamdetect->trainSpam('Other');
+    expect($spamdetect->classify('Other'))->toBe(0.5);
+});
+
+it('does nothing if the category is invalid', function () {
+    $spamdetect = new SpamDetect();
+
+    expect($spamdetect->classify('Example'))->toBe(0.5);
+    $spamdetect->trainText('Example', 'ham');
+    expect($spamdetect->classify('Example'))->toBe(0.25);
+
+    expect($spamdetect->classify('Other'))->toBe(0.5);
+    $spamdetect->trainText('Other', 'spam');
+    expect($spamdetect->classify('Other'))->toBe(0.75);
+
+    expect($spamdetect->classify('Third'))->toBe(0.5);
+    $spamdetect->trainText('Third', 'invalid');
+    expect($spamdetect->classify('Third'))->toBe(0.5);
+});
+
 it('can train with a text known to be ham', function () {
     $spamdetect = new SpamDetect();
 
