@@ -142,21 +142,7 @@ class SpamDetect
      */
     public function trainHam(string $string): void
     {
-        if (is_null($this->stats)) {
-            return;
-        }
-
-        $tokenizer = new Tokenizer([$string]);
-        foreach ($tokenizer->tokenize() as $token) {
-            $existing_token = Token::firstOrNew([
-                'token' => $token,
-            ]);
-            $existing_token->count_ham++;
-            $existing_token->save();
-        }
-        $this->stats->refresh();
-        $this->stats->count_ham++;
-        $this->stats->save();
+        $this->trainText($string, 'ham');
     }
 
     /**
@@ -164,7 +150,25 @@ class SpamDetect
      */
     public function trainSpam(string $string): void
     {
+        $this->trainText($string, 'spam');
+    }
+
+    /**
+     * Split the given string into tokens and add them to the spam database.
+     */
+    public function trainText(string $string, string $category): void
+    {
         if (is_null($this->stats)) {
+            return;
+        }
+
+        if ($category === 'ham') {
+            $ham = 1;
+            $spam = 0;
+        } elseif ($category === 'spam') {
+            $ham = 0;
+            $spam = 1;
+        } else {
             return;
         }
 
@@ -173,11 +177,13 @@ class SpamDetect
             $existing_token = Token::firstOrNew([
                 'token' => $token,
             ]);
-            $existing_token->count_spam++;
+            $existing_token->count_ham += $ham;
+            $existing_token->count_spam += $spam;
             $existing_token->save();
         }
         $this->stats->refresh();
-        $this->stats->count_spam++;
+        $this->stats->count_ham += $ham;
+        $this->stats->count_spam += $spam;
         $this->stats->save();
     }
 }
