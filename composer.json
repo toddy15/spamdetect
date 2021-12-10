@@ -52,7 +52,10 @@
         "laravel": {
             "providers": [
                 "Toddy15\\SpamDetect\\SpamDetectServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "SpamDetect": "Toddy15\\SpamDetect\\Facades\\SpamDetect"
+            }
         }
     }
 }
