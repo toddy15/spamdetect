@@ -74,7 +74,6 @@ class SpamDetect
             $total_spam_texts = max($this->stats->count_spam, 1);
         }
 
-
         $probabilities = [];
         foreach ($found_tokens as $found_token) {
             $token = Token::firstWhere(['token' => $found_token]);
@@ -84,9 +83,9 @@ class SpamDetect
                 continue;
             }
 
-            $relative_frequency_bad = min($token->count_spam / $total_spam_texts, 1);
-            $relative_frequency_good = min(2 * $token->count_ham / $count_ham_texts, 1);
-            $probability = $relative_frequency_bad / ($relative_frequency_good + $relative_frequency_bad);
+            $relative_frequency_spam = min($token->count_spam / $total_spam_texts, 1);
+            $relative_frequency_ham = min(2 * $token->count_ham / $count_ham_texts, 1);
+            $probability = $relative_frequency_spam / ($relative_frequency_ham + $relative_frequency_spam);
 
             // Calculate the better probability proposed by Gary Robinson.
             // This handles the case of rare words much better.
@@ -104,13 +103,9 @@ class SpamDetect
             $probability = (($s * $x) + ($n * $probability)) / ($s + $n);
 
             // Ensure a probability between 0.01 and 0.99
-            $probabilities[$found_token] = max(
-                min(
-                    round($probability, 14),
-                    0.99
-                ),
-                0.01
-            );
+            // and a precision of 14 decimal digits
+            $probability = max(min($probability, 0.99), 0.01);
+            $probabilities[$found_token] = round($probability, 14);
         }
 
         return $probabilities;
@@ -148,14 +143,6 @@ class SpamDetect
     /**
      * Split the given string into tokens and add them to the spam database.
      */
-    public function trainSpam(string $string): void
-    {
-        $this->trainText($string, 'spam');
-    }
-
-    /**
-     * Split the given string into tokens and add them to the spam database.
-     */
     public function trainText(string $string, string $category): void
     {
         if (is_null($this->stats)) {
@@ -185,5 +172,13 @@ class SpamDetect
         $this->stats->count_ham += $ham;
         $this->stats->count_spam += $spam;
         $this->stats->save();
+    }
+
+    /**
+     * Split the given string into tokens and add them to the spam database.
+     */
+    public function trainSpam(string $string): void
+    {
+        $this->trainText($string, 'spam');
     }
 }
