@@ -48,7 +48,7 @@ class Tokenizer
         foreach ($this->tokens as $token) {
             $split_tokens = preg_split("/\s+/", $token);
             if ($split_tokens === false) {
-                $split_tokens = [$token];
+                $split_tokens = [$token]; // @codeCoverageIgnore
             }
             $result = array_merge($result, array_filter($split_tokens));
         }
@@ -69,7 +69,7 @@ class Tokenizer
         foreach ($this->tokens as $s) {
             $tokens = preg_split($pattern, $s, 0, PREG_SPLIT_DELIM_CAPTURE);
             if ($tokens === false) {
-                $tokens = [$s];
+                $tokens = [$s]; // @codeCoverageIgnore
             }
             $result = array_merge($result, $tokens);
         }
