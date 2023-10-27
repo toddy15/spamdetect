@@ -10,6 +10,7 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest]
         laravel: [10.*, 9.*]
@@ -35,3 +36,12 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/pest --coverage-clover coverage.xml
+
+      - name: Upload coverage
+        continue-on-error: true
+        if: ${{ matrix.php == '8.2' && matrix.laravel == '10.*'}}
+        uses: paambaati/codeclimate-action@v5
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+          coverageLocations: ${{github.workspace}}/coverage.xml:clover
