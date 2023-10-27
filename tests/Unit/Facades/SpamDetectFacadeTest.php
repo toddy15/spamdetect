@@ -35,7 +35,7 @@ it('can access a SpamDetect facade (classify)', function () {
 });
 
 it('gets the correct classification using a SpamDetect facade', function () {
-    SpamDetect::trainHam("text");
+    SpamDetect::trainHam('text');
 
     $result = SpamDetect::classify('Example text');
     expect($result)->toBe(0.25);

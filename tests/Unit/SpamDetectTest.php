@@ -109,8 +109,8 @@ it('ranks found tokens according to their importance', function () {
     // Do not use word-01 in spam and word-20 in ham.
     // Therefore, the upper bound is set to 19 instead of 20.
     for ($i = 1; $i <= 19; $i++) {
-        $ham = join(' ', array_slice($words, 0, $i));
-        $spam = join(' ', array_slice(array_reverse($words), 0, $i));
+        $ham = implode(' ', array_slice($words, 0, $i));
+        $spam = implode(' ', array_slice(array_reverse($words), 0, $i));
         $this->spamdetect->trainHam($ham);
         $this->spamdetect->trainSpam($spam);
     }

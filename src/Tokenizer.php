@@ -63,7 +63,7 @@ class Tokenizer
      */
     private function tokenizeCommonMarkups(string $start, string $end): void
     {
-        $pattern = '/(' . $start . '[^' . $end . '\s]+?' . $end . ')/';
+        $pattern = '/('.$start.'[^'.$end.'\s]+?'.$end.')/';
         $result = [];
 
         foreach ($this->tokens as $s) {
