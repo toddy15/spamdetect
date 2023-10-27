@@ -10,10 +10,9 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        laravel: [9.*]
+        laravel: [10.*, 9.*]
         php: [8.2, 8.1]
 
     name: Laravel ${{ matrix.laravel }} - PHP ${{ matrix.php }} - ${{ matrix.os }}
