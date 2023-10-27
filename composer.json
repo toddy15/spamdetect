@@ -25,11 +25,11 @@
     "require-dev": {
         "orchestra/testbench": "^7.34||^8.14",
         "pestphp/pest": "^1.21",
-        "friendsofphp/php-cs-fixer": "^3.3",
         "nunomaduro/larastan": "^2.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-strict-rules": "^1.1",
-        "phpstan/phpstan-deprecation-rules": "^1.0"
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "laravel/pint": "^1.13"
     },
     "autoload": {
         "psr-4": {
@@ -45,7 +45,7 @@
     "scripts": {
         "test": "vendor/bin/pest",
         "test-coverage": "XDEBUG_MODE=coverage vendor/bin/pest --coverage",
-        "format": "vendor/bin/php-cs-fixer fix",
+        "format": "vendor/bin/pint",
         "analyze": "vendor/bin/phpstan"
     },
     "extra": {
