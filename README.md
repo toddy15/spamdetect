@@ -10,6 +10,8 @@ This package provides a naive bayes classifier for Laravel.
 This enables you to do statistical spam detection,
 for example in a guestbook or contact forms.
 
+The package currently supports Laravel 11, 10, and 9.
+
 ## Installation
 
 You can install the package via composer:
